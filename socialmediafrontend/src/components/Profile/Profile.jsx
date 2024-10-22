@@ -5,7 +5,6 @@ import PostCard from "../Post/PostCard";
 import UserReelsCard from "../Reels/UserReelsCard";
 import { useSelector } from "react-redux";
 import ProfileModal from "./ProfileModal";
-import SideBar from "../Sidebar/SideBar";
 
 const tabs = [
   { value: "post", name: "Post" },
@@ -23,8 +22,11 @@ const Profile = () => {
   const handleClose = () => setOpen(false);
   const { id } = useParams();
   const { auth } = useSelector((store) => store);
-  console.log("Auth: ", auth);
-  console.log("firstname", auth.user?.firstName);
+
+  const firstName = auth.user?.firstName || "Guest";
+  const lastName = auth.user?.lastName || "";
+  const fullName = `${firstName} ${lastName}`;
+  const username = `${firstName.toLowerCase()}_${lastName.toLowerCase()}`;
 
   const [value, setValue] = React.useState("post");
 
@@ -32,10 +34,12 @@ const Profile = () => {
     setValue(newValue);
   };
 
+  if (!auth.user || auth.loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="flex">
-      
-      <SideBar /> 
       <Card className="py-10 w-[70%]">
         <div className="rounded-md">
           <div className="h-[15rem]">
@@ -52,31 +56,18 @@ const Profile = () => {
               src="https://cdn.pixabay.com/photo/2023/09/21/01/20/sugar-blader-8265868_640.jpg"
             />
 
-            {true ? (
-              <Button
-                sx={{ borderRadius: "20px" }}
-                variant="outlined"
-                onClick={handleOpenProfileModal}
-              >
-                Edit Profile
-              </Button>
-            ) : (
-              <Button sx={{ borderRadius: "20px" }} variant="outlined">
-                Follow
-              </Button>
-            )}
+            <Button
+              sx={{ borderRadius: "20px" }}
+              variant="outlined"
+              onClick={handleOpenProfileModal}
+            >
+              Edit Profile
+            </Button>
           </div>
           <div className="p-5">
             <div>
-              <h1 className="py-1 font-bold text-xl">
-                {auth.user?.firstName + " " + auth.user?.lastName}
-              </h1>
-              <p>
-                @
-                {auth.user?.firstName.toLowerCase() +
-                  "_" +
-                  auth.user?.lastName.toLowerCase()}
-              </p>
+              <h1 className="py-1 font-bold text-xl">{fullName}</h1>
+              <p>@{username}</p>
             </div>
             <div className="flex gap-5 items-center py-3">
               <span>41 posts</span>
@@ -145,3 +136,4 @@ const Profile = () => {
 };
 
 export default Profile;
+

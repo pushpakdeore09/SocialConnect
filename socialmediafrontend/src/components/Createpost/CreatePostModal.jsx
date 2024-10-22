@@ -13,7 +13,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import VideoCallIcon from "@mui/icons-material/VideoCall";
 import { uploadToCloudinary } from "../../utils/UploadToCloudniry";
 import { useDispatch } from "react-redux";
-import { createPostAction } from "../../redux/post/post.action";
+import { createCommentAction, createPostAction } from "../../redux/post/post.action";
 
 const style = {
   position: "absolute",
@@ -32,35 +32,35 @@ export const CreatePostModal = ({ open, handleClose }) => {
   const [selectedImage, setSelectedImage] = useState();
   const [selectedVideo, setSelectedVideo] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleSelectImage = async (event) => {
     setIsLoading(true);
     const imageUrl = await uploadToCloudinary(event.target.files[0], "image");
-  
+
     if (imageUrl) {
       console.log("ImageURL", imageUrl);
-      
+
       setSelectedImage(imageUrl);
       formik.setFieldValue("image", imageUrl);
     } else {
       console.error("Failed to upload image");
     }
-  
+
     setIsLoading(false);
   };
-  
 
   const handleSelectVideo = async (event) => {
     setIsLoading(true);
     const videoUrl = await uploadToCloudinary(event.target.files[0], "video");
-  
+
     if (videoUrl) {
       setSelectedVideo(videoUrl);
       formik.setFieldValue("video", videoUrl);
     } else {
       console.error("Failed to upload video");
     }
+    setIsLoading(false);
   };
 
   const formik = useFormik({
@@ -70,10 +70,10 @@ export const CreatePostModal = ({ open, handleClose }) => {
       video: "",
     },
     onSubmit: (values) => {
-      dispatch(createPostAction(values))
+      dispatch(createPostAction(values));
     },
   });
-
+  
   return (
     <Modal
       open={open}

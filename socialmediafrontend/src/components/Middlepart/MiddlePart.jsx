@@ -14,7 +14,9 @@ const story = [1, 1, 1, 1, 1, 1];
 const posts = [1, 1, 1, 1, 1, 1, 1];
 const MiddlePart = () => {
   const dispatch = useDispatch();
-  const {post} = useSelector(store=>store)
+  const { post } = useSelector((store) => store);
+  console.log(post);
+  
   const [openCreatePostModal, setOpenCreatePostModal] = useState(false);
 
   const handleCloseCreatePostModal = () => setOpenCreatePostModal(false);
@@ -23,9 +25,9 @@ const MiddlePart = () => {
     setOpenCreatePostModal(true);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(getAllPostAction());
-  },[dispatch])
+  }, [post.newComment]);
 
   return (
     <div className="px-20">
@@ -81,7 +83,7 @@ const MiddlePart = () => {
         </Card>
         <div className="mt-5 space-y-5">
           {post.posts.map((item, index) => (
-            <PostCard key={index} item={item}/>
+            <PostCard key={index} item={item} />
           ))}
         </div>
       </section>

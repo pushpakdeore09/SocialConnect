@@ -25,7 +25,6 @@ export const loginAction = (loginData) => async (dispatch) => {
     if (data.token) {
       localStorage.setItem("jwt", data.token);
     }
-    console.log("login:-", data);
     dispatch({ type: LOGIN_SUCCESS, payload: data.jwt });
   } catch (error) {
     console.log(error);
@@ -35,7 +34,6 @@ export const loginAction = (loginData) => async (dispatch) => {
 };
 
 export const registerAction = (loginData) => async (dispatch) => {
-  console.log(loginData);
   
   dispatch({ type: REGISTER_REQUEST });
   try {
@@ -46,7 +44,6 @@ export const registerAction = (loginData) => async (dispatch) => {
     if (data.token) {
       localStorage.setItem("jwt", data.token);
     }
-    console.log("register:-", data);
     dispatch({ type: REGISTER_SUCCESS, payload: data.jwt });
   } catch (error) {
     console.log(error);
@@ -63,8 +60,6 @@ export const getProfileAction = (jwt) => async (dispatch) => {
         Authorization: `Bearer ${jwt}`,
       },
     });
-
-    console.log("profile:-", data);
     dispatch({ type: GET_PROFILE_SUCCESS, payload: data });
   } catch (error) {
     console.log(error);
@@ -81,7 +76,6 @@ export const updateProfileAction = (reqData) => async (dispatch) => {
       reqData
     );
 
-    console.log("update profile:-", data);
     dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data });
   } catch (error) {
     console.log(error);
