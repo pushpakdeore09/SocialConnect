@@ -26,12 +26,10 @@ public class JwtValidator extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		
 		String jwt = request.getHeader(JwtConstant.JWT_HEADER);
-		System.out.println("Jwt"+jwt);
 		if(jwt!=null && jwt.startsWith("Bearer ")) {
 			try {
 				
 				String email = JwtProvider.getEmailFromJwtToken(jwt);
-				System.out.println("email"+email);
 				List<GrantedAuthority> authorities = new ArrayList<>();
 				
 				Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, authorities);

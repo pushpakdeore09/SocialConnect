@@ -62,8 +62,8 @@ public class UserController {
 		return user;
 	}
 	
-	@GetMapping("/api/search")
-	public List<User> searchUSer(@RequestParam("query") String query){
+	@GetMapping("/api/user/search")
+	public List<User> searchUSer(@RequestParam("query") String query, @RequestHeader("Authorization") String jwt){
 		List<User> users = userService.searchUser(query);
 		
 		return users;

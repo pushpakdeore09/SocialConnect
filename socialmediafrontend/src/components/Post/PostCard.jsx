@@ -19,17 +19,18 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { useDispatch, useSelector } from "react-redux";
-import { createCommentAction } from "../../redux/post/post.action";
+import { createCommentAction, likePostAction } from "../../redux/post/post.action";
+import { IsLikedByRegUser } from "../../utils/IsLikedByRegUser";
 
 const PostCard = ({ item }) => {
   const dispatch = useDispatch();
   const { user } = item;
+  
   const [showComments, setShowComments] = useState(false);
-  const { post } = useSelector((store) => store);
+  const { post, auth } = useSelector((store) => store);
   const handleShowComment = () => {
     setShowComments(!showComments);
   };
-  console.log("post in postcard", item);
   
   const handleCreateComment = (content) => {
     const reqData = {
@@ -40,6 +41,10 @@ const PostCard = ({ item }) => {
     };
     dispatch(createCommentAction(reqData));
   };
+
+  const handleLikePost = () => {
+    dispatch(likePostAction(item.postId))
+  }
   return (
     <Card className="">
       <CardHeader
@@ -71,8 +76,8 @@ const PostCard = ({ item }) => {
       </CardContent>
       <CardActions className="flex justify-between" disableSpacing>
         <div>
-          <IconButton>
-            {true ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          <IconButton onClick={handleLikePost}>
+            {IsLikedByRegUser(auth.user.userId, item) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
           <IconButton>{<ShareIcon />}</IconButton>
           <IconButton onClick={handleShowComment}>

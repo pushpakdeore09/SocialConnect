@@ -1,3 +1,4 @@
+import { SEARCH_USER_SUCCESS } from "../message/message.actionType";
 import {
     GET_PROFILE_REQUEST,
   GET_PROFILE_SUCCESS,
@@ -15,6 +16,7 @@ const initialState = {
   error: null,
   loading: false,
   user: null,
+  searchUser:[],
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -31,6 +33,9 @@ export const authReducer = (state = initialState, action) => {
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
       return { ...state, jwt: action.payload, loading: false, error: null };
+
+    case SEARCH_USER_SUCCESS:
+      return {...state, searchUser:action.payload, loading:false, error:null}
 
     case LOGIN_FAILURE:
     case REGISTER_FAILURE:

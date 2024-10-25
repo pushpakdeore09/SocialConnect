@@ -18,16 +18,18 @@ const SideBar = () => {
     
   };
   const handleNavigate = (item) => {
-    console.log('Navigating with item:', item);
-    if (item.title === 'Profile') {
+    if (item.title === "Profile") {
       const userId = auth.user?.userId;
       if (userId) {
         navigate(`/profile/${userId}`);
       } else {
-        console.error('User ID is undefined.');
+        console.error("User ID is undefined.");
       }
+    } else {
+      navigate(item.path);
     }
-  }
+  };
+  
   const handleProfile = () => {
     const userId = auth.user?.userId;
     if(userId){

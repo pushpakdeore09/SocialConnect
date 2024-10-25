@@ -16,8 +16,7 @@ const initialState = {
   loading: false,
   error: null,
   posts: [],
-  like: null,
-  newComment:null
+  newComment: null,
 };
 
 export const postReducer = (state = initialState, action) => {
@@ -40,7 +39,6 @@ export const postReducer = (state = initialState, action) => {
       return {
         ...state,
         posts: action.payload,
-        comments: action.payload.comments,
         error: null,
         loading: false,
       };
@@ -48,20 +46,21 @@ export const postReducer = (state = initialState, action) => {
     case LIKE_POST_SUCCESS:
       return {
         ...state,
-        like: action.payload,
         posts: state.posts.map((item) =>
-          item.id === action.payload.id ? action.payload : item
+          item.postId === action.payload.postId ? action.payload : item
         ),
         loading: false,
         error: null,
       };
+
     case CREATE_COMMENT_SUCCESS:
       return {
         ...state,
-        newComment:action.payload,
+        newComment: action.payload,
         loading: false,
         error: null,
       };
+
     case CREATE_POST_FAILURE:
     case GET_ALL_POST_FAILURE:
     case LIKE_POST_FAILURE:

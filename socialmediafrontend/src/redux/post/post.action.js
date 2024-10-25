@@ -1,4 +1,3 @@
-import { type } from '@testing-library/user-event/dist/type';
 import { api, API_BASE_URL } from '../../config/api';
 import { CREATE_COMMENT_FAILURE, CREATE_COMMENT_REQUEST, CREATE_COMMENT_SUCCESS, CREATE_POST_FAILURE, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, GET_ALL_POST_FAILURE, GET_ALL_POST_REQUEST, GET_ALL_POST_SUCCESS, GET_USERS_POST_REQUEST, LIKE_POST_FAILURE, LIKE_POST_REQUEST, LIKE_POST_SUCCESS } from './post.actionType';
 
@@ -7,6 +6,7 @@ export const createPostAction = (postData) => async (dispatch) => {
     try {
         const {data} = await api.post(`${API_BASE_URL}/api/posts`, postData)
         dispatch({type:CREATE_POST_SUCCESS, payload:data})
+        
     } catch (error) {
         console.log("error", error);
         
@@ -20,7 +20,6 @@ export const getAllPostAction = () => async (dispatch) => {
     try {
         const {data} = await api.get(`${API_BASE_URL}/api/posts`)
         dispatch({type:GET_ALL_POST_SUCCESS, payload:data})
-        console.log("post", data);
         
     } catch (error) {
         console.log("error", error);
@@ -48,8 +47,10 @@ export const getUsersPostAction = (userId) => async (dispatch) => {
 export const likePostAction = (postId) => async (dispatch) => {
     dispatch({type:LIKE_POST_REQUEST})
     try {
-        const {data} = await api.put(`${API_BASE_URL}/api/post/like/${postId}`)
-        dispatch({type:LIKE_POST_SUCCESS, payload:data})
+        const {data} = await api.put(`${API_BASE_URL}/api/posts/like/${postId}`)
+        dispatch({type:LIKE_POST_SUCCESS, payload:data})    
+        console.log("like post",data);
+        
     } catch (error) {
         console.log("error", error);
         

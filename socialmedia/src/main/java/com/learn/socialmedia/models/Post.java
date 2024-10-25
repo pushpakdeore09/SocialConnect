@@ -5,12 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 @Entity
 public class Post {
@@ -24,7 +19,7 @@ public class Post {
 	@ManyToOne
 	private User user;
 	private LocalDateTime createdAt;
-	@OneToMany
+	@ManyToMany
 	private List<User> liked = new ArrayList<>();
 	@OneToMany
 	private List<Comment> comments = new ArrayList<>();

@@ -13,6 +13,11 @@ import {
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_SUCCESS,
 } from "./auth.actionType";
+import {
+  SEARCH_USER_FAILURE,
+  SEARCH_USER_REQUEST,
+  SEARCH_USER_SUCCESS,
+} from "../message/message.actionType";
 import { api, API_BASE_URL } from "../../config/api";
 
 export const loginAction = (loginData) => async (dispatch) => {
@@ -34,7 +39,6 @@ export const loginAction = (loginData) => async (dispatch) => {
 };
 
 export const registerAction = (loginData) => async (dispatch) => {
-  
   dispatch({ type: REGISTER_REQUEST });
   try {
     const { data } = await axios.post(
@@ -71,15 +75,34 @@ export const getProfileAction = (jwt) => async (dispatch) => {
 export const updateProfileAction = (reqData) => async (dispatch) => {
   dispatch({ type: UPDATE_PROFILE_REQUEST });
   try {
-    const { data } = await api.put(
-      `${API_BASE_URL}/api/users/update`,
-      reqData
-    );
+    const { data } = await api.put(`${API_BASE_URL}/api/users/update`, reqData);
 
     dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data });
   } catch (error) {
     console.log(error);
 
     dispatch({ type: UPDATE_PROFILE_FAILURE, payload: error });
+  }
+};
+
+export const searchUser = (query) => async (dispatch) => {
+  const jwt = localStorage.getItem("jwt")
+  
+  dispatch({ type: SEARCH_USER_REQUEST });
+  try {
+    const { data } = await axios.get(
+      `${API_BASE_URL}/api/user/search?query=${query}`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+
+    dispatch({ type: SEARCH_USER_SUCCESS, payload: data });
+  } catch (error) {
+    console.log(error);
+
+    dispatch({ type: SEARCH_USER_FAILURE, payload: error });
   }
 };
