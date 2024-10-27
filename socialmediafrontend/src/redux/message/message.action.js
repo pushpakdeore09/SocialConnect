@@ -4,8 +4,10 @@ import { api } from "../../config/api";
 export const createMessage = (message) => async (dispatch) => {
   dispatch({ type: actionType.CREATE_MESSAGE_REQUEST });
   try {
-    const { data } = await api.post("/api/message", message);
+    const { data } = await api.post(`/api/messages/chat/${message.chatId}`, message);
     dispatch({ type: actionType.CREATE_MESSAGE_SUCCESS, payload: data });
+    console.log(data);
+    
   } catch (error) {
     console.log(error);
 
@@ -16,10 +18,10 @@ export const createMessage = (message) => async (dispatch) => {
   }
 };
 
-export const createChat = () => async (dispatch) => {
+export const createChat = (chat) => async (dispatch) => {
   dispatch({ type: actionType.CREATE_CHAT_REQUEST });
   try {
-    const { data } = await api.post('/api/chats');
+    const { data } = await api.post('/api/chats', chat);
     console.log("chat", data);
     dispatch({ type: actionType.CREATE_CHAT_SUCCESS, payload: data });
   } catch (error) {
