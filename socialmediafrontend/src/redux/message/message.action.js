@@ -1,11 +1,15 @@
 import * as actionType from "./message.actionType";
 import { api } from "../../config/api";
 
-export const createMessage = (message) => async (dispatch) => {
+export const createMessage = (reqData) => async (dispatch) => {
+  const {message , sendMessageToServer} = reqData
+  
   dispatch({ type: actionType.CREATE_MESSAGE_REQUEST });
   try {
     const { data } = await api.post(`/api/messages/chat/${message.chatId}`, message);
+    sendMessageToServer(data);
     dispatch({ type: actionType.CREATE_MESSAGE_SUCCESS, payload: data });
+
     console.log(data);
     
   } catch (error) {

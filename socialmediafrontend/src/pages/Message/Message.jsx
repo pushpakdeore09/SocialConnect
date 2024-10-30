@@ -18,6 +18,8 @@ import ChatMessage from "./ChatMessage";
 import { useDispatch, useSelector } from "react-redux";
 import { createMessage, getAllChats } from "../../redux/message/message.action";
 import { uploadToCloudinary } from "../../utils/UploadToCloudniry";
+import SockJS from "sockjs-client";
+import Stom from "stompjs";
 
 const Message = () => {
   const dispatch = useDispatch();
@@ -36,16 +38,49 @@ const Message = () => {
     setLoading(false);
   };
   const handleCreateMessage = (value) => {
-    const newMessage = {
+    const message = {
       chatId: currentChat.chatId,
       content: value,
       image: selectedImage,
     };
-    dispatch(createMessage(newMessage));
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
+    const reqData = {
+      message, sendMessageToServer
+    }
+    dispatch(createMessage(reqData));
+    setMessages((prevMessages) => [...prevMessages, message]);
     setSelectedImage(null);
   };
 
+  const [stompClient, setStompClient] = useState(null);
+  useEffect(() => {
+    const sock = new SockJS("http://localhost:8080/ws")
+    const stomp = Stom.over(sock);
+    setStompClient(stomp);
+    stomp.connect({}, onConnect, onError)
+  },[])
+  const onConnect = () => {
+    console.log("websocket connected");
+  }
+
+  const onError = (error) => {
+    console.log("error", error);
+  }
+
+  useEffect(() => {
+    if(stompClient && auth.user && currentChat){
+      const subscription = stompClient.subscribe(`'/user/${currentChat.chatId}/private`, onMessageReceive)
+    }
+  })
+
+  const sendMessageToServer = (newMessage) => {
+    if(stompClient && newMessage){
+      stompClient.send(`/app/chat/${currentChat.chatId.toString()}`,{}, JSON.stringify(message))
+    }
+  }
+  const onMessageReceive = (newMessage) => {
+    console.log("message received from websocket", newMessage);
+    
+  }
   return (
     <div>
       <Grid container className="h-screen overflow-y-hidden">
