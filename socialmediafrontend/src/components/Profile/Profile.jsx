@@ -1,10 +1,11 @@
 import { Avatar, Box, Button, Card, Tab, Tabs } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PostCard from "../Post/PostCard";
 import UserReelsCard from "../Reels/UserReelsCard";
 import { useSelector } from "react-redux";
 import ProfileModal from "./ProfileModal";
+import { getUsersPostAction } from "../../redux/post/post.action";
 
 const tabs = [
   { value: "post", name: "Post" },
@@ -12,19 +13,31 @@ const tabs = [
   { value: "saved", name: "Saved" },
   { value: "repost", name: "Repost" },
 ];
-const posts = [1, 1, 1, 1];
+//const posts = [1, 1, 1, 1];
 const reels = [1, 1, 1, 1];
 const savedPost = [1, 1, 1, 1];
 
 const Profile = () => {
+  const [posts, setPosts] = useState([]);
   const [open, setOpen] = useState(false);
   const handleOpenProfileModal = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const { id } = useParams();
   const { auth } = useSelector((store) => store);
+  useEffect(() => {
+    const getUsersPost = async () => {
+      try {
+        const data = getUsersPostAction(auth.user.userId);
 
-  const firstName = auth.user?.firstName || "Guest";
-  const lastName = auth.user?.lastName || "";
+        setPosts(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  }, []);
+
+  const firstName = auth.user.firstName || "Guest";
+  const lastName = auth.user.lastName || "";
   const fullName = `${firstName} ${lastName}`;
   const username = `${firstName.toLowerCase()}_${lastName.toLowerCase()}`;
 
@@ -98,14 +111,20 @@ const Profile = () => {
             <div className="flex justify-center">
               {value === "post" ? (
                 <div className="space-y-5 w-[70%] my-10">
-                  {posts.map((item, index) => (
-                    <div
-                      key={index}
-                      className="border rounded-md border-slate-100"
-                    >
-                      <PostCard />
+                  {posts.length === 0 ? (
+                    <div className="text-center text-gray-500 py-4">
+                      No posts yet.
                     </div>
-                  ))}
+                  ) : (
+                    posts.map((item, index) => (  
+                      <div
+                        key={index}
+                        className="border rounded-md border-slate-100"
+                      >
+                        <PostCard item={item} />
+                      </div>
+                    ))
+                  )}
                 </div>
               ) : value === "reels" ? (
                 <div className="flex flex-wrap justify-center gap-2 my-10">
@@ -117,7 +136,7 @@ const Profile = () => {
                 <div className="space-y-5 w-[70%] my-10">
                   {posts.map((item, index) => (
                     <div className="border rounded-md border-slate-100">
-                      <PostCard />
+                      <PostCard item={item} key={index} />
                     </div>
                   ))}
                 </div>
@@ -136,4 +155,3 @@ const Profile = () => {
 };
 
 export default Profile;
-

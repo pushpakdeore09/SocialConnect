@@ -24,10 +24,12 @@ import { IsLikedByRegUser } from "../../utils/IsLikedByRegUser";
 
 const PostCard = ({ item }) => {
   const dispatch = useDispatch();
-  const { user } = item;
+  console.log("item", item);
+  
   
   const [showComments, setShowComments] = useState(false);
   const { post, auth } = useSelector((store) => store);
+  const { user } = auth;
   const handleShowComment = () => {
     setShowComments(!showComments);
   };

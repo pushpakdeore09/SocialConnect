@@ -14,10 +14,10 @@ public class RealTimeChatController {
 
     @MessageMapping("/chat/{groupId}")
     public Message sendToUser(@Payload Message message,
-                              @DestinationVariable String groupId){
+                              @DestinationVariable String groupId) {
+        System.out.println("Received message for group: " + groupId + " | Message: " + message);
         simpMessagingTemplate.convertAndSendToUser(groupId, "/private", message);
-
         return message;
-
     }
+
 }

@@ -5,20 +5,21 @@ const ChatMessage = ({ item }) => {
   const { auth } = useSelector((store) => store);
 
   if (!auth?.user || !item?.user) {
-    return <p></p>; 
+    return null;
   }
 
   const isRegUserMessage = auth.user?.userId === item.user?.userId;
-  console.log("regster user id", auth.user?.userId);
-  console.log("message user id", item.user?.userId);
-  
 
   return (
     <div
-      className={`flex ${isRegUserMessage ? "justify-end" : "justify-start"} text-white`}
+      className={`flex ${
+        isRegUserMessage ? "justify-end" : "justify-start"
+      } text-white`}
     >
       <div
-        className={`p-1 ${item.image ? "rounded-md" : "px-5 rounded-full"} bg-[#191c26]`}
+        className={`p-1 ${
+          item.image ? "rounded-md" : "px-5 rounded-full"
+        } bg-[#191c26]`}
       >
         {item.image && (
           <img
@@ -28,9 +29,6 @@ const ChatMessage = ({ item }) => {
           />
         )}
         <p className="py-2">{item.content}</p>
-        <span className="text-sm text-gray-400">
-          {isRegUserMessage ? "This is your message" : "This is another user's message"}
-        </span>
       </div>
     </div>
   );
