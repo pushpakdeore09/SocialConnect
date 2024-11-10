@@ -52,7 +52,7 @@ const PostCard = ({ item }) => {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+            {item.user.firstName[0]}
           </Avatar>
         }
         action={
@@ -60,9 +60,9 @@ const PostCard = ({ item }) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={user.firstName + " " + user.lastName}
+        title={item.user.firstName + " " + item.user.lastName}
         subheader={
-          "@" + user.firstName.toLowerCase() + "_" + user.lastName.toLowerCase()
+          "@" + item.user.firstName.toLowerCase() + "_" + item.user.lastName.toLowerCase()
         }
       />
       <CardMedia

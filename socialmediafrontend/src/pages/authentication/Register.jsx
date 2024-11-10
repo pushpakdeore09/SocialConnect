@@ -18,7 +18,6 @@ const initialValues = {
   lastName: "",
   email: "",
   password: "",
-  gender: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -28,7 +27,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string()
     .min(6, "Password must have at least 6 characters")
     .required("Password required"),
-  gender: Yup.string().required("Gender is required"),
+  
 });
 
 const Register = () => {
@@ -36,15 +35,17 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (values) => {
-    console.log("Submitted values:", values); 
+    try {
+      console.log("Submitted values:", values); 
 
     dispatch(registerAction({ data: values }))
-      .then(() => {
-        navigate("/login");
-      })
-      .catch((error) => {
-        console.error("Registration failed", error);
-      });
+      
+    navigate("/login", { replace: true });
+      
+      
+    } catch (error) {
+      console.error("Registration failed", error);
+    }
   };
 
   return (
@@ -117,23 +118,7 @@ const Register = () => {
                   className="text-red-500"
                 />
               </div>
-              <div>
-                <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                  <InputLabel id="demo-select-small-label">Gender</InputLabel>
-                  <Select
-                    labelId="demo-select-small-label"
-                    id="demo-select-small"
-                    label="Gender"
-                    onChange={(event) =>
-                      setFieldValue("gender", event.target.value)
-                    }
-                  >
-                    <MenuItem value="male">Male</MenuItem>
-                    <MenuItem value="female">Female</MenuItem>
-                    <MenuItem value="other">Other</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
+              
               <Button
                 sx={{ padding: ".8rem 0rem" }}
                 fullWidth
@@ -149,7 +134,7 @@ const Register = () => {
       </Formik>
       <div className="flex gap-2 justify-center items-center pt-5">
         <p>Already have an account?</p>
-        <Button onClick={() => navigate("/")}>Login</Button>
+        <Button onClick={() => navigate("/login")}>Login</Button>
       </div>
     </>
   );

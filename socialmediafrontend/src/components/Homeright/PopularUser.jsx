@@ -17,8 +17,8 @@ const PopularUser = () => {
             Follow
           </Button>
         }
-        title="Social Media"
-        subheader="@socialmedia"
+        title="SocialConnect"
+        subheader="@socialconnect"
       />
     </div>
   )

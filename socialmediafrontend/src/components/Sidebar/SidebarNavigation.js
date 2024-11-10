@@ -14,12 +14,12 @@ export const navigationMenu = [
         path:"/"
     },
     {
-        title:"Reels",
+        title:"Videos",
         icon:<ExploreIcon/>,
         path:"/reels"
     },
     {
-        title:"Create Reel",
+        title:"Create Video",
         icon:<ControlPointIcon/>,
         path:"/create-reel"
     },

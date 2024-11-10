@@ -24,6 +24,8 @@ const Profile = () => {
   const handleClose = () => setOpen(false);
   const { id } = useParams();
   const { auth } = useSelector((store) => store);
+  console.log(auth);
+
   useEffect(() => {
     const getUsersPost = async () => {
       try {
@@ -83,9 +85,17 @@ const Profile = () => {
               <p>@{username}</p>
             </div>
             <div className="flex gap-5 items-center py-3">
-              <span>41 posts</span>
-              <span>35 followers</span>
-              <span>5 followings</span>
+              <span>
+                {auth.user?.posts != null ? auth.user.posts : 0} posts
+              </span>
+              <span>
+                {auth.user?.followers != null ? auth.user.followers : 0}{" "}
+                followers
+              </span>
+              <span>
+                {auth.user?.followings != null ? auth.user.followings : 0}{" "}
+                followings
+              </span>
             </div>
             <div>
               <p>
@@ -116,7 +126,7 @@ const Profile = () => {
                       No posts yet.
                     </div>
                   ) : (
-                    posts.map((item, index) => (  
+                    posts.map((item, index) => (
                       <div
                         key={index}
                         className="border rounded-md border-slate-100"
