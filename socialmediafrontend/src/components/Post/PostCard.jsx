@@ -79,7 +79,7 @@ const PostCard = ({ item }) => {
       <CardActions className="flex justify-between" disableSpacing>
         <div>
           <IconButton onClick={handleLikePost}>
-            {IsLikedByRegUser(auth.user.userId, item) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            {IsLikedByRegUser(auth.user?.userId, item) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
           <IconButton>{<ShareIcon />}</IconButton>
           <IconButton onClick={handleShowComment}>

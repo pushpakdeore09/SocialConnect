@@ -14,7 +14,7 @@ const Authentication = () => {
         <Grid className="h-screen overflow-hidden" item xs={7}>
           <img
             className="h-full w-full"
-            src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSJ7H3d6qOi1q836rW1jE4S1hp7WH64SEqftgE9gE5pxzYtODC-"
+            src="https://www.archcareersguide.com/wp-content/uploads/2020/03/Networking.jpg"
             alt=""
           />
         </Grid>

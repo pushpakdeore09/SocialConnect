@@ -43,7 +43,7 @@ const Login = () => {
       <Grid item xs={12} md={6}>
         <img
           style={{ height: "100%", width: "100%", objectFit: "cover" }}
-          src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSJ7H3d6qOi1q836rW1jE4S1hp7WH64SEqftgE9gE5pxzYtODC-"
+          src="https://www.archcareersguide.com/wp-content/uploads/2020/03/Networking.jpg"
           alt="Login illustration"
         />
       </Grid>
@@ -70,7 +70,7 @@ const Login = () => {
           initialValues={initialValues}
           onSubmit={handleSubmit}
         >
-          <Form style={{ width: "80%" }}>
+          <Form style={{ width: "60%" }}>
             <Grid container spacing={2} direction="column">
               <Grid item>
                 <Field
